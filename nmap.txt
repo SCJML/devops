@@ -1,0 +1,80 @@
+#!/bin/bash
+
+#Analisando a sua rede
+arp-scan --localnet --ignoredups
+arp-scan --localnet
+
+#Desconbrindo maquinas na rede
+netdiscover -l etho -r ip/mask
+netdiscover -r 192.168.0.0/24 #define a faixa de ip vc quer escanear
+netdiscover -r 12.168.0.0/16
+netdiscover -p -i interface # netdiscover -p -i eth0
+netdiscover -p -i eth0 #(invisivel na rede, oculta arp)
+netdiscover -l ranges #(ranges significa nome do arquivo contendo as redes, ex.: 192.168.1.0/24 colocar embaixo a outra rede, 10.0.2.0/24
+
+#################################################################################################
+#Checando Sistema Operacional - verson
+nmap -O 10.228.17.222
+
+#Checando Sistema Operacional - verson
+#(enable OS detection, version detection, script scanning and traceroute)
+nmap -A 10.228.17.222 
+
+# O parametro D (Decoy) faz duas origens (sources), assim dificulta a sua identificao (duplica a origem da varredura para dois hosts, a varredura vai ser duplicada 
+para os hosts, ficando mais dificil saber de onde mesmo esta sendo feito)
+nmap -sS -D 10.228.17.222 10.228.17.226
+
+#Executando scripts com nmap
+https://nmap.org/nsedoc/categories/vuln.html
+nmap --script nomescript 10.228.17.22
+nmap --script vuln 10.228.17.22
+
+Pesquisar scripts https://www.vulnhub.com/?q=kioptrix&sort=date-des# 
+Guia Search digitar kioptrix
+https://www.vulnhub.com/?q=kioptrix&sort=date-des#
+
+#NMAP ###############################################################################
+#####################################################################################
+#Dicas NMAP, Nmap, nmap
+nmap -T4 -sS -sV -O -Pn -F 192.168.0.200
+nmap -sV -T4 -O -g 80 -vv -Pn
+nmap -T4 -sS -sV -O -o ip
+nmap -A -T -p- 192.168.0.X
+nmap -A -T4 ip address --->usar esse para ver info sobre o SO
+
+#Checando SO e portas ao mesmo tempo - OTIMO COMANDO 
+nmap -T4 -sS -sV -oO 192.168.0.48
+nmap -sS -O -T3 -sV -oA invent 192.168.0.0/16 > scanrede.txt
+
+# Samba enumerar os diretorios e usuarios do samba, a fim de encontrar alguma informacao util
+nmap -p 445 -vv --script=smb-enum-shares.nse,smb-enum-users.nse 192.168.10.190
+
+#Inventário de todas as máquinas de uma determinada rede
+nmap -sS -O -T3 -oA invent 192.168.0.0/24
+
+#Considere que pretende saber quais os endereços IP “ativos” numa determinada rede de dados.
+nmap -sP 192.168.0.0/16 ou 24
+
+#Obtendo mais detalhes de um endereço
+nmap -v 192.168.1.150
+
+#Varedura de uma rede utilizando Wildcards
+nmap 192.168.1.*
+
+#Wildcards e excluindo alguns ips
+nmap 192.168.1.* --exclude=192.168.1.200
+
+#Utilizando um arquivo com uma lista de IPs
+nmap -iL lista-ips.txt
+
+#Descobrir o Sistema Operacional e o Traceroute de determinado IP
+nmap -A 192.168.1.150
+
+#Descobrir o Sistema Operacional de determinado IP com mais detalhes e mais organizado
+nmap -O 192.168.1.150
+
+#Verificar se um firewall está protegendo
+nmap -PN 192.168.1.150
+
+#Enganar o firewall
+nmap -sN 192.168.1.150

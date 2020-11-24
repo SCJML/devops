@@ -1,0 +1,380 @@
+
+#!/bin/bash
+# COVID 19 lembrando os tempos jurassicos, April, 2020
+# Canivete Suico  Saul Nunes
+
+#Dicas BASH HISTORY
+Crtl+a -> retorna ao inicio da linha
+Crtl+e -> posiciona o cursor no final do comando que esta sendo digitado
+Crtl+u -> apaga todo o conteudo da linha e o coloca no clipboard
+Crtl+k -> apaga todo o conteudo da linha a partir do cursos e o coloca no clipboard
+Crtl+y -> cola na linha de comando o conteudo do clipboard obtido a partir dos comandos Clrl + u ou Ctrl +k
+Crtl+t -> troca a posicao dis dois caracteres antes do cursor
+Crtl+w -> apaga a palavra ou diretuva a esquerda do cursos
+Crlt+l -> limpa a tela
+Crtl+P -> comando anterior
+Crtl+N -> comando anterior
+Crtl+R -> busca recursiva
+Crtl+S -> busca inicial
+
+ls -il
+ls -lua
+ls -lta
+
+#Navegando em dois diretorios rapidamente
+pushd caminho, exemplo: pushd /var/log/apache2
+popd /Dicas
+quando precisar voltar para apache basta digitar popd
+
+#checando arquitetura
+uname -m
+
+#Dicas Bash
+history #lista todos comandos digitados
+history -c #limpa comandos digitados
+history --digitando !numero_linha executa o comando
+echo $PATH  #verificando path
+which vim #verifica o path do programa instalado 
+blkid #analisa as permissoes dos volumes instalados
+#alias time-date='date && cal'
+
+#Verificando os maiores diretorios
+du -h |egrep -v "\./.+/" | sort -h
+
+#Verificando formato arquivo imagem dimensao 
+file Personal_wallpaper.png 
+
+#verificando quem esta consumindo o HD
+aptitude install iotop
+iotop
+
+#Reduzindo .pdf 
+aptitude install ghostscript
+ps2pdf compactandopdf1.pdf compactandopdf2.pdf 
+
+#Comparando arquivos lado a lado
+aptitude install sdiff
+sdiff testediff1 testediff2
+
+#####################################################################################
+#Analisando a sua rede
+arp-scan --localnet --ignoredups
+arp-scan --localnet
+
+#Verificando versao linux
+cat /etc/*-release
+lsb_release -a
+
+#Dicas NETSTAT
+netstat -tupan
+netstat -na
+
+#Dicas lsof - Lista aquivos abertos - List Open Files
+lsof /var/log/syslog #lista os programas que estao acessando o arquivo /var/log/syslog
+lsof +D /var/log  #listando todos os programas acessando arquivos em um determinado direotior
+lsof -t +D /var/log #listando todos os programas acessando arquivos em um determinado direotior
+lsof -t +D /var/syslog #listando todos os programas acessando arquivos em um determinado direotior
+lsof +u admin #lista arquivos abertos por um determinado usuario
+lsof +u root
+lsof -i:22 #lista o programa que esta usando a porta 22
+lsof -i upd
+lsof -i tcp
+lsof -p 730 #lista todos os arquivos abertos por um determinado processo.
+
+#Dicas reconigurando timezone
+dpkg-reconfigure tzdata
+
+#Dicas removendo comentarios
+egrep -v "^#|^$" /diretorio/nome do arquivo > /diretorio/nome do novo arquivo
+egrep -i didigtaroqueprecisa procurar  nomedoarquivoapesquisar
+
+#Comandos + uteis
+diff  compara arquivos -u,-Nr,-i,-w
+echo  mostra texto -e,-n
+find encontra arquivos -name, -iname, -type f, -exec, -or
+grep encontra texto -i,-v,-r,-qs,-n,-w,-x-,A-B-C
+head mostra inicio -n -c
+tail mostra fim tail -f 
+sed edita texto -n,-f s/isso/aquilo/,p,d,q,N
+wc conta letras -c, -w, -l, -L
+xargs gerencia arqgumentos
+watch free -h
+killall nomeprocess, exemplo: killall firefox
+mtr --curses 8.8.8.8
+
+#################################################################################################
+DICAS - KALI PENTESTING.
+#################################################################################################
+fping -a -g 192.169.0.255 2>/dev/null
+
+# netcat (invasao)
+ouvindo portas com netcat
+nc -lvp 1234 # onde 1234 'e a porta
+acessando porta
+nc 192.168.1.1 1234
+transferindo arquivo via netcat
+nc -lp 1234 <texte.txt (maquina 1)
+nc ipmaquiba >teste2.txt (maquina 2)
+
+#DNS Service ####################################################################################
+#################################################################################################
+#Saber se o dns esta em modo recursivo - mal configurado
+dig @nome ou ip de seu dns any
+dig @8.8.8.8 www.uol.com.br
+dig unicamp.com.br
+dig ns gssaneamento.com.br
+dig +trace www.uol.com.br
+dig lacnic.net any
+
+#NSLOOKUP
+nslookup
+host -t NS dominio (focus.com.br)
+nslookup
+set type=mx
+set q=any
+
+#MX Servidor
+whois www.gssaneamento.com.br
+host -v -t NS google.com.br
+
+#Identificar o servidor de email de um dominio
+host -v -t MX gssaneamento.com.br
+
+#Consulta da base de dados do DNS  (total)
+host -l -v any ig.com.br
+dnswalk -r bradesco.com.br. # (nao esquecer de terminar com um . no final do dominio)
+dnswalk -rfiadmF1 bradesco.com.br. (nao esquecer de terminar com um . no final do dominio)
+fierce -dns gssaneamento.com.br
+
+#################################################################################################
+#################################################################################################
+
+#Enviando mensagem atraves do terminal console
+wall digitar mensagem (broadcast)
+echo "digitar mensagem" > /dev/pts/1 (individual, por terminal)
+
+#################################################################################################
+#Desconbrindo maquinas na rede
+netdiscover -l etho -r ip/mask
+netdiscover -r 192.168.0.0/24 #define a faixa de ip vc quer escanear
+netdiscover -r 12.168.0.0/16
+netdiscover -p -i interface # netdiscover -p -i eth0
+netdiscover -p -i eth0 #(invisivel na rede, oculta arp)
+netdiscover -l ranges #(ranges significa nome do arquivo contendo as redes, ex.: 192.168.1.0/24 colocar embaixo a outra rede, 10.0.2.0/24
+
+#################################################################################################
+# ISO e Copia fisica
+#Copia bit a bit - obs: nao funciona com diretorios, somente com unidades 
+dd if=<source file name> of=<target file name> [options]
+
+#criar arquivo iso
+mkisofs -o nome_do_arquivo.iso /home/nome_de_usuário/nome_da_pasta
+
+#################################################################################################
+#Hashcat - Analisando senha com o Hashcat. Primeiro ter um dicionario de dados para comparar.
+1. passo ir no site https://unix4lyfe.org/crypt/ (digitar a senha que vc quer, depoois copiar o resultado do md5 para o arquivo example500.hash
+2. depois executar o comando abaixo
+hashcat -m 500 example500.hash rockyou.txt --force
+hashcat -m 500 example500.hash rockyou.txt --show
+
+#################################################################################################
+#Verificando hardware, modulos no Linux
+lspci 
+lspci |grep VGA
+lspci -v|less
+lshw -->nao nativo, tem que instalar o pacote
+hwinfo	-->nao nativo, tem que instalar o pacote
+
+#Sabendo qual modulo (drivers) esta instalado 
+modinfo nome-do-modulo-visto-acima
+
+#################################################################################################
+#Criando Aliases - editar o arquivo abaixo, se nao existir criar
+/home/admin/.bash_aliases
+sintaxe: alias nome-do-que-vc-quer='programa-que-voce-quer executar' exemplo:  
+alias rede-saul='netdiscover -r 192.168.0.0/16'
+
+################################################################################################
+#Copiando projetos do repositorio https://github.com
+aptitude install git
+git clone endereco (ir na guia clone/download, copiar o endereco)
+
+###############################################################################################
+#Criando permissao para usuario no SUDO
+usermod -aG sudo nome-usuario
+
+###############################################################################################
+#Desabilitando chaves SSH e habilitando root
+cd /etc/ssh
+dpkg-reconfigure openssh-server
+passwd root
+digitar nova senha
+
+###############################################################################################
+#Habilitando pacote cmatrix
+aptitude install cmatrix
+cmatrix
+
+##############################################################################################
+#Montando compartilhamento Windows no Linux, exemplo:
+mount -t cifs //192.168.0.15/temp /mnt/win10/ -o username='administrator'
+Exemplo: fstab - montar protegendo a senha de visualizacao
+//ip-windows/share   /mnt/diretorio   cifs   credentials=/root/shared.txt,user,dir_mode=0777,file_mode=0777   0  0
+
+#no arquivo shared.txt deve ser escrito da seguinte forma:
+username= seu usuario
+password= sua senha
+
+Exemplo fstab - montar mostrando a senha no fstab...
+//192.168.0.250/backup   /mnt/backup   cifs   username=administrator,password=senha,user,dir_mode=0777,file_mode=0777  0  0 
+
+###############################################################################################
+#Monitorando trafego de rede...
+nload eth0 #(programa top)
+nload -t 500 #(intervalo em milissegundos)
+Tres comandos em Linux para ver trafego de rede via terminal
+iptraf
+iftop
+nethogs (bom programa)
+htop (gerenciando processos)
+
+###############################################################################################
+#Trabalhando com APT-GET, APTITUTE, Repositorio, apt, apt-get, aptitute
+#apt – Um front end APT unificado para a linha de comando.
+#apt-cache – Obtenha informações sobre pacotes de software disponíveis no APT.
+#apt-get – Ferramenta de linha de comando para gerenciar pacotes de software APT.
+#apt-file – Procure por arquivos individuais em todos os pacotes APT disponíveis.
+#apt-mark – Altere ou visualize as configurações de pacotes APT individuais.
+#dpkg – Instale, remova e mantenha os pacotes de software da Debian.
+aptitude search pacote
+aptitude install nome pacote
+apttitude reinstall
+aptitute remove pacote1 pacote2 
+apt --reinstall install postifix --> reinstalar pacotes danificados e que precisam ser reinstalados
+aptitude versions nome pacote
+aptitude why nome pacote
+aptitide update -> atualiza os pacotes
+aptitude upgrade --> atualiza o sistema
+aptitute safe-upgrade --> atualiza o maior numero de pacotes sem remover nenhum 
+aptitude full-upgrade --> atualza pacotes removendo pacotes, se necessario, para resolver problemas de dependecia
+aptitude search nome pacote --> pesquisa nos respositoriso do APT e exibe todos os pacotes
+#Corrigindo instalacao pacotes
+apt full-upgrade -y --fix-missing
+
+#Exibe as versoes dos pacotes
+aptitude show nome pacote --> exibe todas as informaceos disponiveis sobre o pacote
+dpkg --get-selections |more
+
+#Lista todos os pacotes disponiveis para instalacao
+apt-cache pkgname
+
+#Descobrir o nome de um pacote com uma breve descricao
+apt-cache search libreoffice
+
+#Para exibir mais detalhes do pacote
+apt-cache show iptable
+
+#Listar as dependencias de um pacote de software
+apt-cache showpkg iptables
+
+#Diretiva stats exibira estatisticas gerais sobre o cache de pacotes do sistema
+apt-cache stats
+
+###############################################################################################
+###############################################################################################
+#MD5 Checksum 
+#md5sum arquivo iso baixado 
+#SHA256 Checksum -  exemplo abaixo:
+echo "3fe242f4b330ead8191b3c200bcf1d8d3be4243d62fe6b866a778499370c9dbb *ubuntu-19.10-live-server-amd64.iso" 88| shasum -a 256 --check
+ou
+sha -a 256 nomedoarquivo.iso
+
+###############################################################################################
+#Reconfigurando Teclado
+dpkg-reconfigure keyboard-configuration
+
+###############################################################################################
+###############################################################################################
+#criando chave SSH para se logar automaticamente ao inves de utilizar senha a todo momento
+#criar chave no host que deseja
+/root/.ssh
+ssh-keygen -t rsa -b 4096 --> so clicar, nao precisa digitar senha
+
+#copiar a chave gerada para o host desejado
+scp id_rsa.pub usuario@ipaddress:/root/.ssh
+chmod 700 /root/.ssh
+chmod 600 /root/.ssh/*
+#no local que voce criou a chave somente testar
+ssh ipaddress
+
+#No Windows Putty
+#Executar o programa puttygen.exe, gerar a chave, copiar a mesma para a Linux, pasta /root/,ssh/authorized_keys
+#copiar a chave gerada o putty.exe para dentro do 
+/root/.ssh/authorized_keys # (cp id_rsa.pub authorized_keys)
+#Apois isso ir no 
+/etc/ssh/sshd_config e habilitar a linha PasswdAuthentication no
+Fim
+###############################################################################################
+###############################################################################################
+#TAR Compactar e Criptografar
+tar -zcvf - diretorioqueprecisa |openssl des3 -salt -k senhasecreta | dd of=nomedoarquivo.des3
+
+#TAR Descompactar e Descriptografar
+dd if=nomearquivo.des3 |openssl des3 -d -k senhasecreta |tar xvzf -
+
+#Cripografando arquivos pelo terminal com ccrypt
+aptitude install ccrypt
+
+#Criptografando arquivo
+ccrypt nome do arquivo
+#Descriptografando arquivo
+ccrypt -d nome do arquivo
+
+#Criptografando pasta
+ccrypt -r nome pasta
+#Descriptografando pasta
+ccdecrypt -r nome pasta
+
+###############################################################################################
+###############################################################################################
+#Analisar sites ###############################################################################
+#Analiase info do site
+whatweb -v -a 3 https://ferrarisolucoes.com.br
+
+#Analise diretorios do site
+gobuster dir -u http://www.ferrarisolucoes.com.br/ -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -x html,php 
+gobuster dir -u http://www.ferrarisolucoes.com.br/ -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -x html,php -e
+
+#Ping 
+httping http://www.dica-l.com.br
+
+#Procurando por endereco de email na internet
+https://hunter.io
+theharvester -d gssaneamento.com.br -b google 
+theharvester -d gssaneamento.com.br -b google 
+theharvester -d gssaneamento.com.br -l 500 -b google
+
+#Curl - Abreviacao de Client URL
+curl --head http://www.fiap.com.br
+curl -l -l https://www.durr.com.br
+
+#Forense - Checando se tem rootkit no SO
+chkrootkit -r / ou
+rkhunter --update:rkhunter -e -r /
+
+#Forense - Procurar por Worms com clamscan (#aptitude install clamavscan -r /
+freshclam; clamscan -r /
+
+#Listando informacoes de arquivos compactados para saber conteudo, sistema operacional que foi criado etc
+zipinfo arquivo.zip
+zipinfo -l arquivos.zip
+zipinfo -m arquivos.zip
+
+#Ngrock run ssh client on the system to connect rermote ssh running host
+ssh administrator@0.tcp.ngrok.io -p10717
+
+#######################################################################################
+#Extrair audio de videos mp4 - O programa avconv faz parte do pacote libav-tools.
+avconv -i arquivo_video.mp4 arquivo_audio.mp3 ou usar
+mplayer -dumpaudio arquivo_video.mp4 -dumpfile arquivo_audio.mp3 
+

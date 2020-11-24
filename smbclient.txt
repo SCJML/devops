@@ -1,0 +1,11 @@
+#!/bin/bash
+Dicas Hacker invasao Samba
+
+nmap -p 445 -vv --script=smb-enum-shares.nse,smb-enum-users.nse 192.168.10.190
+nmap -p 445 -vv --script=smb-enum-shares.nse,smb-enum-users.nse 192.168.10.190 -d
+
+smbmap -d workgroup -H 192.168.10.190
+
+smbclient -L 192.168.10.190 -N
+smbclient //192.168.0.222/Transfer --user="cronos\Saul.Nunes"
+

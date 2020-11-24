@@ -1,0 +1,104 @@
+#!/bin/bash - Saul
+
+Dicas COMANDO FIND ###################################################################
+
+#find encontra arquivos -name, -iname, -type f, -exec, -or
+
+Procurar ignorando case sensitive
+#find /home -iname arquivo.txt
+
+Procurar coringas
+#find /home -name *rquiv*
+
+Procurar diretorios
+#find / -type -d -name Fotos arquivos.txt /home/user/Fotos
+
+Procurar por tipo de arquivos
+#find / -type -f -name Ftoso *.odt
+
+##############################################################################################
+IMPORTANTE ###################################################################################
+
+Procurar e pesquisar string - palavra em um determinado arquivo
+#find /mnt/cloud/ –name "*.txt" -print0 | xargs -0 grep -Hin "Saul" ou 
+#find /mnt/cloud –name "*.txt" -exec grep -Hin "Saul" {} \;
+Alterado nas ultimas 48 horas
+#find /mnt/cloud –name "*.txt" -mtime -2 -exec grep -Hin --color=always "Saul" {} \;
+
+Procurar por permissao e encontrar todos os arquivos que possuem permissao 777
+# . -type f -perm 0777 -print
+
+Procurar pastas ocultas
+#find / -type f -name ".*"
+
+Pesquisa FIND Maiores arquivos
+#find . -type f -exec ls -sh {} \; | sort -n -r | head -10 --> pesquisando os maiores diretorios
+#find . -size +500M
+#find . / -size +500M
+#find . -size +1G
+#find . -size +100M -exec ls -s {} \; --> maior que 100MB
+
+Pesquisar Pastas vazias
+#find . -empty -exec ls -l {} \;
+
+Como limpar/truncar/zerar diversos arquivos de uma só vez
+# find . -size +1M -iname \*.log | xargs -i bash -c “echo > {}”
+
+Procurar e remover
+#find . -type f -name arquivoVazio.txt | xargs rm -f
+#find . -type f -name arquivoVazio.txt -exec rm -f {} \;
+#find . -user nomearquivo -exec rm -f {} \;
+
+PESQUISAR POR TEMPO ########################################################################
+-mtime = quando alteramos o conteúdo do ficheiro
+-ctime = quando o inode associado ao ficheiro foi alterado - alterado sempre que alteramos o conteúdo, mas também quando mudamos o dono, as perrmissões do ficheiro, quando movemos para outra pasta
+-atime = quando o ficheiro foi lido pela última vez
+
+#find . -type f -mtime -1 -daystart -exec ls -l {} \; ---> contamos 24h do inicio do dia de ontem
+Hoje e segunda e imagine que vc quer ver o que foi alterado no fim de semana
+#find . -type f -mtime 2 -mtime -2 -daystart -exec ls -l {} \;
+
+Procurar arquivos acessados (atime) nas ultimas 24 horas (para mais de 3 dias use +3)
+#find /Dicas -type f -atime -1 -exec ls -l {} \;
+
+Procurar arquivos acessados (amin) nos ultimos 5 minutos
+#find / -type f -amin -5
+
+Procurar arquivos criados (ctime) nas ultimas 12 horas
+#find / -type f -ctime -0.5 -exec ls -l {} \;
+
+Procurar arquivos modificados 9mtime) nas ultimas 6 horas
+#find . -type f -mtime -0.25
+
+Procurar arquivso acessados ha N dias
+#find / atime 5
+
+Procurar arquivso criados ou modificados nos ultimos 2 dias
+#find / mtime -2 -print
+
+Procurar arquivos modificados entre X e Y dias atras
+#find / -mtime +30 -mtime -90
+
+Permissoes#######################################################################################
+Procurar arquivos SUID SUDO
+#find / -perm /u=s 
+
+Procurar arquivos executaveis x
+#find / -perm /a=x
+
+Procurar arquivos somente leitura
+find / -perm /u=r
+
+Procurar por proprietatio
+#find . -user saul
+com criterios #find . -user saul -name '*.txt'
+
+Problemas para apagar - bash: /bin/ls Argument list too lon
+#ls -il --> comando ls para lista o inode (localizado o inode, apagar)
+#find -inum numerinode -exec rm {} \;
+
+Error Argument List Too Long
+#find / -type f -print0 |xargs -0 ls -l --> ou
+#find / -maxdepth 1 -print0 | xargs -0 ls -l ou ainda
+#find . -maxdepth 1 -type f -exec ls -l {} \; | less
+
