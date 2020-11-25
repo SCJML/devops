@@ -1,0 +1,3 @@
+
+/bin/bash: line 1: /etc/fstab: Permission denied
+/bin/bash: line 1: /etc/shadow: Permission denied
