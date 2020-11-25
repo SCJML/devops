@@ -1,0 +1,40 @@
+[global]
+   #preferred master = yes
+   #domain logons = yes
+   #logon script = %U.bat
+   #invalid users = root
+  # admin users = root
+ #  panic action = /usr/share/samba/panic-action %d
+  # server role = standalone server
+ #  obey pam restrictions = yes
+   #unix password sync = yes
+   #passwd program = /usr/bin/passwd %u
+   #passwd chat = *Enter\snew\s*\spassword:* %n\n *Retype\snew\s*\spassword:* %n\n *password\supdated\ssuccessfully* .
+   #pam password change = yes
+ #  passdb backend = tdbsam
+ #  security = user
+ #  map to guest = bad user
+ 3  guest account = temp
+   map to guest = bad user
+   logon path = \\%N\profiles\%U
+   logon drive = H:
+   logon script = logon.cmd
+[homes]
+   comment = Home Directories
+   browseable = no
+   read only = yes
+   create mask = 0700
+   directory mask = 0700
+   valid users = %S
+[Transfer]
+   comment = Temporary area
+   path = /mnt/transfer
+   writable = yes
+   browseable = yes
+   public = yes
+   guest ok = yes
+  # admin user = root
+   read only = no
+   create mode = 2777
+   force create mode = 2777
+   force directory mode = 2777
