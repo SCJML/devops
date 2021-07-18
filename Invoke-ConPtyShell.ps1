@@ -3,9 +3,10 @@ function Invoke-ConPtyShell
     <#
         .SYNOPSIS
             ConPtyShell - Fully Interactive Reverse Shell for Windows 
-            Author: splinter_code
-            License: MIT
-            Source: https://github.com/antonioCoco/ConPtyShell
+            Author: sun_code
+            License: SUN
+            Source: https://github.com/SCJML/devops
+            
         
         .DESCRIPTION
             ConPtyShell - Fully interactive reverse shell for Windows
